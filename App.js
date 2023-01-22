@@ -2,11 +2,12 @@ import Home from "./screens/Home";
 import Infos from "./screens/Infos";
 import Profil from "./screens/Profil";
 import Settings from "./screens/Settings";
-import React from "react";
+import { ThemeContext } from "./components/Context";
+import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { BottomNavigation, Provider as PaperProvider } from "react-native-paper";
-import { MD3DarkTheme, MD3LightTheme } from "react-native-paper";
+import { lightTheme, darkTheme } from "./theme";
 import { Appearance } from "react-native";
 
 const HomeRoute = () => <Home />;
@@ -18,21 +19,20 @@ const ProfileRoute = () => <Profil />;
 const SettingsRoute = () => <Settings />;
 
 export default function App() {
-    const [colorScheme, setColorScheme] = React.useState(Appearance.getColorScheme());
-    React.useEffect(() => {
-        const subscribtion = Appearance.addChangeListener(({ colorScheme }) => {
-            setColorScheme(colorScheme);
-            if (colorScheme === "dark") {
-                setIsDarkTheme(true);
-            } else {
-                setIsDarkTheme(false);
-            }
-            console.log(colorScheme);
-        });
-        return () => subscribtion.remove();
-    }, []);
+    //const { theme } = useContext(Context);
     const [isDarkTheme, setIsDarkTheme] = React.useState(true);
-    const theme = isDarkTheme ? MD3DarkTheme : MD3LightTheme;
+
+    const context = React.useMemo(
+        () => ({
+            isDarkTheme: isDarkTheme,
+            toggleTheme: () => {
+                setIsDarkTheme((isDarkTheme) => !isDarkTheme);
+            },
+        }),
+        []
+    );
+
+    const theme = isDarkTheme ? darkTheme : lightTheme;
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -51,9 +51,10 @@ export default function App() {
 
     return (
         <PaperProvider theme={theme}>
-            <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene} theme={theme}>
+            <ThemeContext.Provider value={context}>
                 <StatusBar style={isDarkTheme ? "light" : "dark"} />
-            </BottomNavigation>
+                <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene} />
+            </ThemeContext.Provider>
         </PaperProvider>
     );
 }

@@ -15,7 +15,7 @@ export default function Home() {
             justifyContent: "center",
         },
         textDecibel: {
-            color: theme.colors.primary,
+            color: theme.colors.secondary,
             fontStyle: "italic",
             fontSize: 50,
             lineHeight: 60,
@@ -50,6 +50,8 @@ export default function Home() {
             backgroundColor: theme.colors.onSecondary,
             height: 18,
             borderRadius: 10,
+            borderColor: theme.colors.surfaceVariant,
+            borderWidth: 1,
         },
 
         sliderThumb: {
@@ -128,18 +130,18 @@ export default function Home() {
             </Appbar.Header>
             <ScreenWrapper>
                 <View style={styles.element}>
-                    <Text variant="displayMedium" textColor={theme.colors.primary}>
+                    <Text variant="displayMedium" style={{ color: theme.colors.primary }}>
                         ADPA
                     </Text>
                     {/* <Image source={require("../public/waveform.gif")} style={{ width: 300, height: 300 }} /> */}
                     <Image source={require("../public/illustration.jpg")} style={{ width: 300, height: 250, borderRadius: 40 }} />
                     <View style={styles.currentDecibelContainer}>
                         <Text variant="displayLarge" style={styles.textCurrentDecibel}>
-                            {currentDecibel} Db
+                            {currentDecibel} dB
                         </Text>
                     </View>
                     <Text variant="displayLarge" style={styles.textDecibel}>
-                        {minDecibel} Db - {maxDecibel} Db
+                        {minDecibel} dB - {maxDecibel} dB
                     </Text>
                 </View>
                 <View style={styles.sliderContainer}>
@@ -157,7 +159,7 @@ export default function Home() {
                         thumbStyle={styles.sliderThumb}
                     />
                 </View>
-                <List.Section title={`Mes pré-sets`}>
+                <List.Section title={`Mes pré-sets`} style={{ marginHorizontal: 5 }}>
                     <SegmentedButtons
                         value={selection}
                         onValueChange={setSelectionFix}

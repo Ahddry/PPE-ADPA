@@ -22,7 +22,7 @@ export default function Profil() {
             </Appbar.Header>
             <ScreenWrapper>
                 <View style={styles.page}>
-                    <Text>Thèmes</Text>
+                    <Text>Profil</Text>
                 </View>
             </ScreenWrapper>
         </View>
