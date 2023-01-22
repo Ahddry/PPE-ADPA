@@ -1,10 +1,16 @@
 {
   "expo": {
-    "name": "TestReactNative",
-    "slug": "TestReactNative",
+    "name": "PPE-ADPA",
+    "slug": "PPE-ADPA",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "fonts" : [
+      {
+        "name": "Yellowtail",
+        "path": "./assets/fonts/Yellowtail-Regular.ttf"
+      }
+    ],
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
