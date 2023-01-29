@@ -46,8 +46,6 @@ export default function Articles() {
 
     const navigation = useNavigation();
 
-    console.log(theme.colors.onBackground);
-
     return (
         <View style={styles.screen}>
             <Appbar.Header elevated theme={theme}>
