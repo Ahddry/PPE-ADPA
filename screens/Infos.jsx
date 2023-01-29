@@ -1,9 +1,15 @@
-import React, { Component } from "react";
-import { Easing, FlatList, ScrollView, StyleSheet, useColorScheme, View } from "react-native";
-import { Appbar, useTheme, Card, Button, Text, Chip, Divider, IconButton, Provider } from "react-native-paper";
+import CarteArticle from "../components/CarteArticle";
+import React from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Appbar, useTheme, Card, Button, Text, Chip } from "react-native-paper";
 import ScreenWrapper from "../components/ScreenWrapper";
+import db from "../storage/articles/db";
+import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { navigationRef } from "../RootNavigation";
+import { createStackNavigator } from "@react-navigation/stack";
+import Articles from "./Articles";
 
-export default function Infos() {
+function Informations() {
     const theme = useTheme();
     const styles = StyleSheet.create({
         page: {
@@ -12,10 +18,6 @@ export default function Infos() {
         },
         screen: {
             flex: 1,
-        },
-        card: {
-            marginHorizontal: 8,
-            marginBottom: 10,
         },
         cardContainer: {
             marginBottom: 80,
@@ -32,6 +34,9 @@ export default function Infos() {
         },
     });
 
+    const tags = ["Information", "Interview", "Santé", "Technologie", "Ecoute", "Média"];
+    const [articles, setArticles] = React.useState(db.articles);
+    const [selectedChip, setSelectedChip] = React.useState("Populaires");
     return (
         <View style={styles.screen}>
             <Appbar.Header elevated>
@@ -39,52 +44,63 @@ export default function Infos() {
             </Appbar.Header>
             <ScreenWrapper>
                 <ScrollView showsHorizontalScrollIndicator={false} horizontal style={styles.chipsContainer} contentContainerStyle={styles.chipsContent}>
-                    <Chip selected onPress={() => {}} style={styles.chip} showSelectedOverlay>
+                    <Chip
+                        onPress={() => {
+                            setArticles(db.articles.sort((a, b) => (a.id < b.id ? -1 : 1)));
+                            setSelectedChip("Populaires");
+                        }}
+                        style={styles.chip}
+                        selected={selectedChip === "Populaires"}
+                        showSelectedOverlay={selectedChip === "Populaires"}
+                    >
                         Populaires
                     </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
+                    <Chip
+                        onPress={() => {
+                            setArticles(db.articles.sort((a, b) => (a.date > b.date ? -1 : 1)));
+                            setSelectedChip("Les plus récents");
+                        }}
+                        style={styles.chip}
+                        selected={selectedChip === "Les plus récents"}
+                        showSelectedOverlay={selectedChip === "Les plus récents"}
+                    >
                         Les plus récents
                     </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                        Interviews
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                        Santé
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                        Technologie
-                    </Chip>
+
+                    {tags.map((tag) => (
+                        <Chip
+                            onPress={() => {
+                                setArticles(db.articles.filter((article) => article.tags.includes(tag)));
+                                setSelectedChip(tag);
+                            }}
+                            style={styles.chip}
+                            selected={selectedChip === tag}
+                            showSelectedOverlay={selectedChip === tag}
+                            key={tag}
+                        >
+                            {tag}
+                        </Chip>
+                    ))}
                 </ScrollView>
                 <View style={styles.cardContainer}>
-                    <Card style={styles.card} mode="contained">
-                        <Card.Cover source={require("../public/schema1.jpg")} />
-                        <Card.Title title="L'oreille" titleVariant="headlineMedium" />
-                        <Card.Content>
-                            <Text variant="bodyMedium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed nisl euismod, lacinia...</Text>
-                        </Card.Content>
-                        <Card.Actions>
-                            <Button onPress={() => {}}>Partager</Button>
-                            <Button onPress={() => {}}>Lire l'article</Button>
-                        </Card.Actions>
-                    </Card>
-                    <Card style={styles.card} mode="contained">
-                        <Card.Cover resizeMode="cover" source={require("../public/schema2.jpg")} />
-                        <Card.Title title="L'écoute prolongée d'un média à trop haute intensité sonore" titleVariant="headlineMedium" />
-                        <Card.Content>
-                            <Text variant="bodyMedium">
-                                Have you ever heard the tragedy of Darth Plagueis the Wise? I thought not. It's not a story the Jedi would tell you. It's a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use
-                                the Force to influence the midichlorians to create life... He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities
-                                some consider to be unnatural. He became so powerful... the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his
-                                apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.
-                            </Text>
-                        </Card.Content>
-                        <Card.Actions>
-                            <Button onPress={() => {}}>Partager</Button>
-                            <Button onPress={() => {}}>Lire l'article</Button>
-                        </Card.Actions>
-                    </Card>
+                    {articles.map((article) => (
+                        <CarteArticle article={article} key={article.id} />
+                    ))}
                 </View>
             </ScreenWrapper>
         </View>
+    );
+}
+
+export default function Infos() {
+    const Stack = createStackNavigator();
+
+    return (
+        <NavigationContainer ref={navigationRef}>
+            <Stack.Navigator>
+                <Stack.Screen name="Infos" component={Informations} options={{ headerShown: false }} />
+                <Stack.Screen name="Articles" component={Articles} options={{ headerShown: false }} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }

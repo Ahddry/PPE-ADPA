@@ -1,6 +1,6 @@
 import { ThemeContext } from "../components/Context";
-import React, { Component, useState, useContext } from "react";
-import { Easing, FlatList, ScrollView, StyleSheet, useColorScheme, View } from "react-native";
+import React, { Component, useState, useContext, useCallback } from "react";
+import { StyleSheet, Linking, View } from "react-native";
 import { Appbar, useTheme, Card, Button, Text, Chip, Divider, IconButton, List, Switch } from "react-native-paper";
 import ScreenWrapper from "../components/ScreenWrapper";
 
@@ -25,6 +25,10 @@ export default function Settings() {
         toggleTheme();
     };
 
+    const ouvrirParametres = useCallback(async () => {
+        await Linking.openSettings();
+    }, []);
+
     return (
         <View style={styles.screen}>
             <Appbar.Header elevated>
@@ -43,7 +47,7 @@ export default function Settings() {
                         <List.Item
                             title="Avancé"
                             description="Options de votre téléphone"
-                            onPress={() => ""}
+                            onPress={() => ouvrirParametres()}
                             left={(props) => <List.Icon {...props} icon="cog" style={{ marginLeft: 15 }} />}
                             right={(props) => <List.Icon {...props} icon="arrow-right" />}
                         />

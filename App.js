@@ -2,24 +2,20 @@ import Home from "./screens/Home";
 import Infos from "./screens/Infos";
 import Profil from "./screens/Profil";
 import Settings from "./screens/Settings";
+import Articles from "./screens/Articles";
 import { ThemeContext } from "./components/Context";
-import React, { useContext } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import { BottomNavigation, Provider as PaperProvider } from "react-native-paper";
 import { lightTheme, darkTheme } from "./theme";
-import { Appearance } from "react-native";
 
 const HomeRoute = () => <Home />;
-
 const InfosRoute = () => <Infos />;
-
 const ProfileRoute = () => <Profil />;
-
 const SettingsRoute = () => <Settings />;
+const ArticlesRoute = () => <Articles />;
 
 export default function App() {
-    //const { theme } = useContext(Context);
     const [isDarkTheme, setIsDarkTheme] = React.useState(true);
 
     const context = React.useMemo(
@@ -48,12 +44,12 @@ export default function App() {
         infos: InfosRoute,
         settings: SettingsRoute,
     });
-
     return (
         <PaperProvider theme={theme}>
             <ThemeContext.Provider value={context}>
-                <StatusBar style={isDarkTheme ? "light" : "dark"} />
-                <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene} />
+                <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene}>
+                    <StatusBar style={isDarkTheme ? "light" : "dark"} />
+                </BottomNavigation>
             </ThemeContext.Provider>
         </PaperProvider>
     );
