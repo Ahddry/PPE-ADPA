@@ -8,6 +8,8 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { navigationRef } from "../RootNavigation";
 import { createStackNavigator } from "@react-navigation/stack";
 import Articles from "./Articles";
+import Login from "./Login";
+import * as RootNavigation from "../RootNavigation.js";
 
 function Informations() {
     const theme = useTheme();
@@ -96,7 +98,7 @@ export default function Infos() {
     const Stack = createStackNavigator();
 
     return (
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer ref={navigationRef} independent={true}>
             <Stack.Navigator>
                 <Stack.Screen name="Infos" component={Informations} options={{ headerShown: false }} />
                 <Stack.Screen name="Articles" component={Articles} options={{ headerShown: false }} />

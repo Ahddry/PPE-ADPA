@@ -2,8 +2,11 @@ import Home from "./screens/Home";
 import Infos from "./screens/Infos";
 import Profil from "./screens/Profil";
 import Settings from "./screens/Settings";
-import Articles from "./screens/Articles";
-import { ThemeContext } from "./components/Context";
+import Login from "./screens/Login";
+import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { navigationRef } from "./RootNavigation";
+import { createStackNavigator } from "@react-navigation/stack";
+import { MonContext } from "./components/Context";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { BottomNavigation, Provider as PaperProvider } from "react-native-paper";
@@ -13,21 +16,9 @@ const HomeRoute = () => <Home />;
 const InfosRoute = () => <Infos />;
 const ProfileRoute = () => <Profil />;
 const SettingsRoute = () => <Settings />;
-const ArticlesRoute = () => <Articles />;
 
-export default function App() {
+function Adpa() {
     const [isDarkTheme, setIsDarkTheme] = React.useState(true);
-
-    const context = React.useMemo(
-        () => ({
-            isDarkTheme: isDarkTheme,
-            toggleTheme: () => {
-                setIsDarkTheme((isDarkTheme) => !isDarkTheme);
-            },
-        }),
-        []
-    );
-
     const theme = isDarkTheme ? darkTheme : lightTheme;
 
     const [index, setIndex] = React.useState(0);
@@ -44,13 +35,63 @@ export default function App() {
         infos: InfosRoute,
         settings: SettingsRoute,
     });
+
+    return (
+        <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene}>
+            <StatusBar style={isDarkTheme ? "light" : "dark"} />
+        </BottomNavigation>
+    );
+}
+
+export default function App() {
+    const [isDarkTheme, setIsDarkTheme] = React.useState(true);
+
+    const context = React.useMemo(
+        () => ({
+            isDarkTheme: isDarkTheme,
+            toggleTheme: () => {
+                setIsDarkTheme((isDarkTheme) => !isDarkTheme);
+            },
+            user: {
+                id: 0,
+                username: "",
+                email: "",
+                password: "",
+                isConnected: false,
+            },
+            connect(user) {
+                this.user = user;
+                this.user.isConnected = true;
+                console.log(user);
+            },
+            disconnect() {
+                this.user = {
+                    id: 0,
+                    username: "",
+                    email: "",
+                    password: "",
+                    isConnected: false,
+                };
+            },
+        }),
+        []
+    );
+
+    const theme = isDarkTheme ? darkTheme : lightTheme;
+
+    const Stack = createStackNavigator();
+
     return (
         <PaperProvider theme={theme}>
-            <ThemeContext.Provider value={context}>
-                <BottomNavigation navigationState={{ index, routes }} onIndexChange={setIndex} renderScene={renderScene}>
-                    <StatusBar style={isDarkTheme ? "light" : "dark"} />
-                </BottomNavigation>
-            </ThemeContext.Provider>
+            <MonContext.Provider value={context}>
+                <NavigationContainer ref={navigationRef}>
+                    <Stack.Navigator>
+                        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                        <Stack.Screen name="Adpa" component={Adpa} options={{ headerShown: false }} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+                <StatusBar style={isDarkTheme ? "light" : "dark"} />
+            </MonContext.Provider>
         </PaperProvider>
     );
 }

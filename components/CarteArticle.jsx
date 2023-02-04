@@ -78,6 +78,7 @@ export default function CarteArticle({ article }) {
                         onPress={() => {
                             RootNavigation.navigate("Articles", { id: id });
                         }}
+                        key={id}
                     >
                         Lire l'article
                     </Button>

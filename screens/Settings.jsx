@@ -1,4 +1,4 @@
-import { ThemeContext } from "../components/Context";
+import { MonContext } from "../components/Context";
 import React, { Component, useState, useContext, useCallback } from "react";
 import { StyleSheet, Linking, View } from "react-native";
 import { Appbar, useTheme, Card, Button, Text, Chip, Divider, IconButton, List, Switch } from "react-native-paper";
@@ -16,7 +16,7 @@ export default function Settings() {
         },
     });
 
-    const { toggleTheme, isDarkTheme } = useContext(ThemeContext);
+    const { toggleTheme, isDarkTheme } = useContext(MonContext);
 
     const [isSwitchOn, setIsSwitchOn] = useState(true);
 

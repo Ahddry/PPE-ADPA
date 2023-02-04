@@ -83,7 +83,7 @@ export default function Articles() {
                                     <></>
                                 )}
                                 {paragraphe.section ? (
-                                    <Text variant="body" style={styles.texte} key={article.id + paragraphe.titre + index + 100}>
+                                    <Text variant="body" style={styles.texte} key={article.id + paragraphe.titre + index + "body"}>
                                         {paragraphe.section}
                                     </Text>
                                 ) : (
