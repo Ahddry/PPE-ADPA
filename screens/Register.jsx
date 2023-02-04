@@ -6,8 +6,9 @@ import { Appbar, useTheme, Card, Button, Text, Chip, TextInput, Avatar } from "r
 import ScreenWrapper from "../components/ScreenWrapper";
 import db from "../storage/user/db";
 import { useNavigation } from "@react-navigation/native";
+import { validate } from "react-email-validator";
 
-export default function Login() {
+export default function Register() {
     const theme = useTheme();
     const styles = StyleSheet.create({
         page: {
@@ -96,6 +97,7 @@ export default function Login() {
 
     const [visible, setVisible] = React.useState(false);
     const [email, setEmail] = React.useState("");
+    const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [eye, setEye] = React.useState("eye-off");
 
@@ -108,21 +110,58 @@ export default function Login() {
         }
     }
 
-    function handleLogin() {
+    function handleRegister() {
         if (email !== "" && password !== "") {
             var emailCheck = email.trim();
+            var usernameCheck = username.trim();
             var passwordCheck = password.trim();
             emailCheck = emailCheck.toLowerCase();
-            console.log("Email : '" + emailCheck + "' et mot de passe : '" + passwordCheck + "'");
-            if (users.find((user) => user.email === emailCheck && user.password === passwordCheck)) {
-                console.log("Connexion réussie");
-                user = users.find((user) => user.email === emailCheck && user.password === passwordCheck);
-                connect(user);
-                RootNavigation.navigate("Adpa");
-            } else if (users.find((user) => user.emailCheck === email)) {
-                alert("Mot de passe incorrect");
+            console.log("Email : '" + emailCheck + "', username : '" + usernameCheck + "' et mot de passe : '" + passwordCheck + "'");
+            if (validate(emailCheck)) {
+                if (usernameCheck !== "") {
+                    if (passwordCheck !== "") {
+                        if (passwordCheck.length >= 8) {
+                            var userExist = false;
+                            users.forEach((user) => {
+                                if (user.email === emailCheck) {
+                                    userExist = true;
+                                }
+                            });
+                            if (!userExist) {
+                                // TODO : Ajouter l'utilisateur dans la base de données
+                                /*
+                                db.users.push({
+                                    email: emailCheck,
+                                    username: usernameCheck,
+                                    password: passwordCheck,
+                                    isConnected: true,
+                                    id: db.users.length + 1,
+                                });
+                                */
+                                console.log("L'utilisateur a été créé !");
+                                connect({
+                                    email: emailCheck,
+                                    username: usernameCheck,
+                                    password: passwordCheck,
+                                    isConnected: true,
+                                    telephone: "0612345678",
+                                    id: 0, //TODO : Ajouter un id unique
+                                });
+                                RootNavigation.navigate("Adpa");
+                            } else {
+                                alert("L'utilisateur existe déjà !");
+                            }
+                        } else {
+                            alert("Le mot de passe doit faire au moins 8 caractères !");
+                        }
+                    } else {
+                        alert("Le mot de passe est vide !");
+                    }
+                } else {
+                    alert("Le nom d'utilisateur est vide !");
+                }
             } else {
-                alert("Email incorrect");
+                alert("L'email est invalide !");
             }
         }
     }
@@ -136,19 +175,17 @@ export default function Login() {
                             <Text style={{ color: "rgb(255, 185, 92)", fontWeight: "bold" }} variant="displayLarge">
                                 A D P A
                             </Text>
-                            <Button onPress={() => navigation.navigate("Adpa")} style={{ backgroundColor: theme.colors.errorContainer }}>
-                                <Text style={{ color: theme.colors.onErrorContainer }}>Express connect</Text> {/** TODO : Supprimer cette ligne, elle n'est là que pour le debug */}
-                            </Button>
                         </View>
                     </ImageBackground>
                     <View style={styles.preContainer}>
                         <Text style={{ textAlign: "center", color: theme.colors.onSurfaceVariant }} variant="headlineMedium">
-                            Se connecter
+                            S'inscrire
                         </Text>
                     </View>
                     <View style={styles.container}>
                         <View style={{ marginTop: 20, width: "100%", alignItems: "center" }}>
                             <TextInput label="Email" style={styles.input} value={email} onChangeText={(email) => setEmail(email)} />
+                            <TextInput label="Nom d'utilisateur" style={styles.input} value={username} onChangeText={(username) => setUsername(username)} />
                             <TextInput
                                 label="Mot de passe"
                                 style={styles.input}
@@ -170,44 +207,23 @@ export default function Login() {
                             style={{ margin: 10, width: "90%" }}
                             mode="contained"
                             onPress={() => {
-                                handleLogin();
-                            }}
-                        >
-                            Se connecter
-                        </Button>
-                        <Button
-                            style={{ margin: 10, width: "90%" }}
-                            mode="outlined"
-                            onPress={() => {
-                                RootNavigation.navigate("Register");
+                                handleRegister();
                             }}
                         >
                             S'inscrire
                         </Button>
-
                         <Text style={{ textAlign: "center", color: theme.colors.onSurfaceVariant }} variant="headlineMedium">
-                            Ou se connecter avec
+                            Vous avez déjà un compte ?
                         </Text>
-                        <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", margin: 10 }}>
-                            <Chip
-                                style={{ margin: 10, borderColor: theme.colors.outline, borderWidth: 1 }}
-                                icon="facebook"
-                                onPress={() => {
-                                    console.log("Pressed Facebook");
-                                }}
-                            >
-                                Facebook
-                            </Chip>
-                            <Chip
-                                style={{ margin: 10, borderColor: theme.colors.outline, borderWidth: 1 }}
-                                icon="google"
-                                onPress={() => {
-                                    console.log("Pressed Google");
-                                }}
-                            >
-                                Google
-                            </Chip>
-                        </View>
+                        <Button
+                            style={{ margin: 10, width: "90%" }}
+                            mode="outlined"
+                            onPress={() => {
+                                RootNavigation.navigate("Login");
+                            }}
+                        >
+                            Se connecter
+                        </Button>
                     </View>
                 </ScrollView>
             </ScreenWrapper>

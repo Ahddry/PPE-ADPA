@@ -1,12 +1,21 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Appbar, useTheme, Card, Button, Text, Chip } from "react-native-paper";
+import { Appbar, useTheme, Card, Button, Text, Chip, List, Divider } from "react-native-paper";
 import ScreenWrapper from "./ScreenWrapper";
 import db from "../storage/articles/db";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Notifications() {
     const theme = useTheme();
+    const styles = StyleSheet.create({
+        page: {
+            flex: 1,
+            alignItems: "stretch",
+        },
+        screen: {
+            flex: 1,
+        },
+    });
 
     const navigation = useNavigation();
 

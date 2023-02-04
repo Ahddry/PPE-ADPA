@@ -3,6 +3,7 @@ import Infos from "./screens/Infos";
 import Profil from "./screens/Profil";
 import Settings from "./screens/Settings";
 import Login from "./screens/Login";
+import Register from "./screens/Register";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { navigationRef } from "./RootNavigation";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -57,6 +58,7 @@ export default function App() {
                 username: "",
                 email: "",
                 password: "",
+                telephone: "",
                 isConnected: false,
             },
             connect(user) {
@@ -87,6 +89,7 @@ export default function App() {
                 <NavigationContainer ref={navigationRef}>
                     <Stack.Navigator>
                         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
                         <Stack.Screen name="Adpa" component={Adpa} options={{ headerShown: false }} />
                     </Stack.Navigator>
                 </NavigationContainer>

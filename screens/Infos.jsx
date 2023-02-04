@@ -8,8 +8,6 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { navigationRef } from "../RootNavigation";
 import { createStackNavigator } from "@react-navigation/stack";
 import Articles from "./Articles";
-import Login from "./Login";
-import * as RootNavigation from "../RootNavigation.js";
 
 function Informations() {
     const theme = useTheme();
