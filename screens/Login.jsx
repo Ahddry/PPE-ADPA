@@ -116,8 +116,17 @@ export default function Login() {
             console.log("Email : '" + emailCheck + "' et mot de passe : '" + passwordCheck + "'");
             if (users.find((user) => user.email === emailCheck && user.password === passwordCheck)) {
                 console.log("Connexion réussie");
-                user = users.find((user) => user.email === emailCheck && user.password === passwordCheck);
-                connect(user);
+                const username = users.find((user) => user.email === emailCheck && user.password === passwordCheck).username;
+                const tel = users.find((user) => user.email === emailCheck && user.password === passwordCheck).telephone;
+                const id = users.find((user) => user.email === emailCheck && user.password === passwordCheck).id;
+                connect({
+                    email: emailCheck,
+                    username: username,
+                    password: passwordCheck,
+                    telephone: tel,
+                    id: id,
+                    isConnected: true,
+                });
                 RootNavigation.navigate("Adpa");
             } else if (users.find((user) => user.emailCheck === email)) {
                 alert("Mot de passe incorrect");
