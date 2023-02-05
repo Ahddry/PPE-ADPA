@@ -6,6 +6,13 @@ import db from "../storage/articles/db";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 
+/**
+ * Page d'un article avec son contenu
+ * @see db pour avoir un exemple de contenu
+ * @see CarteArticle
+ * @see Informations
+ * @returns {JSX.Element} Page d'un article avec son contenu
+ */
 export default function Articles() {
     const route = useRoute();
     const id = route.params?.id;

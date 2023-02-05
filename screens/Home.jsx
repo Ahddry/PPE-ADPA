@@ -5,6 +5,11 @@ import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useTheme, Text, Appbar, List, SegmentedButtons } from "react-native-paper";
 import { Slider } from "@miblanchard/react-native-slider";
 
+/**
+ * Page d'accueil
+ * TODO: Gestion audio à faire avec ces saisies et afficher le resultat dans le gros carré
+ * @returns {JSX.Element} Page d'accueil
+ */
 export default function Home() {
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -73,7 +78,11 @@ export default function Home() {
 
     const { user } = useContext(MonContext);
 
+    //! Value du gros carré
+    // TODO: @Hugo Afficher le resultat de l'output là
     const [currentDecibel, setCurrentDecibel] = useState(50);
+
+    // TODO: @Hugo Récupérer ces valeurs pour l'input
     const [minDecibel, setMinDecibel] = useState(25);
     const [maxDecibel, setMaxDecibel] = useState(75);
 
@@ -82,6 +91,7 @@ export default function Home() {
         setMaxDecibel(value[1]);
     }
 
+    // * Sert pour le moment à faire varier le gros carré, à supprimer quand on aura l'input
     useEffect(() => {
         const interval = setInterval(() => {
             var value = Math.floor(Math.random() * (maxDecibel - minDecibel + 1) + minDecibel);

@@ -6,6 +6,12 @@ import { Appbar, useTheme, Button, Text, Divider, IconButton, Avatar, List, Port
 import ScreenWrapper from "../components/ScreenWrapper";
 import { useFocusEffect } from "@react-navigation/native";
 
+/**
+ * Page de profil
+ * TODO: Fixer le bug du mdp caché qui ne se met pas à jour
+ * TODO: Ajouter un bouton pour supprimer un pré-set
+ * @returns {JSX.Element} Page de profil
+ */
 export default function Profil() {
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -23,10 +29,10 @@ export default function Profil() {
         },
     });
 
+    // Contexte pour récupérer les données de l'utilisateur
     const { user, connect, disconnect } = useContext(MonContext);
 
-    const [user2, setUser] = React.useState({});
-
+    // Mise à jour des champs quand l'utilisateur change
     useFocusEffect(
         React.useCallback(() => {
             setPasswordHidden("");
@@ -69,6 +75,7 @@ export default function Profil() {
     const [indexDialog, setIndexDialog] = React.useState(0);
     const [minMax, setMinMax] = React.useState(false);
 
+    // Fonction pour modifier les limites min et max d'un pré-set
     function EditLimit({ index, type }) {
         var val;
         if (type) val = userPreSets[index].max;
@@ -119,6 +126,7 @@ export default function Profil() {
         );
     }
 
+    // Fonction pour modifier un pré-set
     function EditPreset({ index }) {
         const hideDialog = () => setVisibleEditPreset(false);
         const [nom, setNom] = React.useState(userPreSets[index].nom);
@@ -165,6 +173,7 @@ export default function Profil() {
         );
     }
 
+    // Fonction pour ajouter un pré-set
     function AddPreset() {
         const hideDialog = () => setVisibleAdd(false);
         const [nom, setNom] = React.useState("");

@@ -5,6 +5,11 @@ import ScreenWrapper from "./ScreenWrapper";
 import db from "../storage/articles/db";
 import { useNavigation } from "@react-navigation/native";
 
+/**
+ * Paramètres de notifications
+ * TODO: Implémenter les notifications et les boutons car là c'est joli mais ça sert à rien
+ * @returns {JSX.Element} Page de paramètres de notifications
+ */
 export default function Notifications() {
     const theme = useTheme();
     const styles = StyleSheet.create({

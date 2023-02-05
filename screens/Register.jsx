@@ -8,6 +8,11 @@ import db from "../storage/user/db";
 import { useNavigation } from "@react-navigation/native";
 import { validate } from "react-email-validator";
 
+/**
+ * Page d'inscription, principalement identique à la page de connexion
+ * TODO: Back-end
+ * @returns {JSX.Element} Page d'inscription
+ */
 export default function Register() {
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -84,15 +89,16 @@ export default function Register() {
         },
     });
 
+    // Informations récupérées depuis le contexte
     const { connect, disconnect } = useContext(MonContext);
 
     const users = db.users;
-    const navigation = useNavigation();
 
     const [visible, setVisible] = React.useState(false);
     const [email, setEmail] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [tel, setTel] = React.useState("");
     const [eye, setEye] = React.useState("eye-off");
 
     function handleVisibility() {
@@ -104,6 +110,8 @@ export default function Register() {
         }
     }
 
+    // Fonction qui permet de s'inscrire
+    // TODO : BDD + vérification des informations back-end
     function handleRegister() {
         if (email !== "" && password !== "") {
             var emailCheck = email.trim();

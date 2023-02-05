@@ -9,6 +9,10 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { navigationRef } from "../RootNavigation";
 import { createStackNavigator } from "@react-navigation/stack";
 
+/**
+ * Page de paramètres
+ * @returns {JSX.Element} Page de paramètres
+ */
 function Parametres() {
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -25,6 +29,7 @@ function Parametres() {
 
     const [isSwitchOn, setIsSwitchOn] = useState(true);
 
+    // Switch theme
     const onToggleSwitch = () => {
         setIsSwitchOn(!isSwitchOn);
         toggleTheme();
@@ -66,7 +71,7 @@ function Parametres() {
                         <Divider />
                     </List.Section>
                     <List.Section title="À propos">
-                        <List.Item title="Version" onPress={() => ""} left={(props) => <List.Icon {...props} icon="information" style={{ marginLeft: 15 }} />} right={() => <Text>0.4.3</Text>} />
+                        <List.Item title="Version" onPress={() => ""} left={(props) => <List.Icon {...props} icon="information" style={{ marginLeft: 15 }} />} right={() => <Text>0.5.2</Text>} />
                         <Divider />
                         <Divider />
                     </List.Section>

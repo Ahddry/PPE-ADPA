@@ -9,6 +9,12 @@ import { navigationRef } from "../RootNavigation";
 import { createStackNavigator } from "@react-navigation/stack";
 import Articles from "./Articles";
 
+/**
+ * Page d'informations avec les articles
+ * TODO: Peupler la BDD
+ * @see CarteArticle
+ * @returns {JSX.Element} Page d'informations avec les articles
+ */
 function Informations() {
     const theme = useTheme();
     const styles = StyleSheet.create({

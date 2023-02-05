@@ -2,8 +2,13 @@ import * as RootNavigation from "../RootNavigation.js";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Appbar, useTheme, Card, Button, Text, Chip } from "react-native-paper";
-//import { useNavigation } from "@react-navigation/native";
 
+/**
+ * Carte d'un article
+ * Peut avoir une illustration ou non
+ * @param {*} article Article à afficher
+ * @returns {JSX.Element} Carte d'un article
+ */
 export default function CarteArticle({ article }) {
     var illustration;
     if (article.illustration !== undefined) {
@@ -62,7 +67,6 @@ export default function CarteArticle({ article }) {
         </ScrollView>
     );
 
-    //const navigation = useNavigation();
     return (
         <View>
             <Card style={styles.card} mode="contained">

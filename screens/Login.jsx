@@ -7,6 +7,11 @@ import ScreenWrapper from "../components/ScreenWrapper";
 import db from "../storage/user/db";
 import { useNavigation } from "@react-navigation/native";
 
+/**
+ * Page de connexion de l'utilisateur à l'application
+ * TODO: Back-end
+ * @returns {JSX.Element} Page de connexion
+ */
 export default function Login() {
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -83,9 +88,9 @@ export default function Login() {
         },
     });
 
+    // Informations récupérées depuis le contexte
     const { connect, disconnect, setUser } = useContext(MonContext);
     const users = db.users;
-    const navigation = useNavigation();
 
     const [visible, setVisible] = React.useState(false);
     const [email, setEmail] = React.useState("");
@@ -101,6 +106,8 @@ export default function Login() {
         }
     }
 
+    // Fonction de connexion
+    // TODO : BDD + vérification des informations back-end
     function handleLogin() {
         if (email !== "" && password !== "") {
             var emailCheck = email.trim();
@@ -219,6 +226,7 @@ export default function Login() {
                             S'inscrire
                         </Button>
 
+                        {/* Aucune idée de si on va s'en servir, je les ai mis mais y'a pas de back de fait pour l'instant, on peut les enlever si on veut */}
                         <Text style={{ textAlign: "center", color: theme.colors.onSurfaceVariant }} variant="headlineMedium">
                             Ou se connecter avec
                         </Text>

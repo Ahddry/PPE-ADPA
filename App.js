@@ -13,11 +13,19 @@ import { StatusBar } from "expo-status-bar";
 import { BottomNavigation, Provider as PaperProvider } from "react-native-paper";
 import { lightTheme, darkTheme } from "./theme";
 
+/// Page principale de l'application, est tout en haut du DOM
+/// Elle contient les routes principales de l'application
+/// Elle contient aussi le contexte de l'application
+
 const HomeRoute = () => <Home />;
 const InfosRoute = () => <Infos />;
 const ProfileRoute = () => <Profil />;
 const SettingsRoute = () => <Settings />;
 
+/**
+ * Page d'accueil de l'application (après connexion)
+ * @returns {JSX.Element} La page d'accueil de l'application
+ */
 function Adpa() {
     const [isDarkTheme, setIsDarkTheme] = React.useState(true);
     const theme = isDarkTheme ? darkTheme : lightTheme;
@@ -44,10 +52,17 @@ function Adpa() {
     );
 }
 
+/**
+ * Page principale de l'application
+ * @see MonContext
+ * @returns {JSX.Element} La page principale de l'application
+ */
 export default function App() {
     const [isDarkTheme, setIsDarkTheme] = React.useState(true);
     const [user, setUser] = React.useState(null);
 
+    // Contexte de l'application
+    // Il contient les informations de l'utilisateur connecté, les fonctions de connexion et de déconnexion ainsi que le thème de l'application
     const context = React.useMemo(
         () => ({
             isDarkTheme: isDarkTheme,
@@ -82,7 +97,6 @@ export default function App() {
                         <Stack.Navigator>
                             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-                            {/* <Stack.Screen name="Adpa" component={Adpa} options={{ headerShown: false }} /> */}
                         </Stack.Navigator>
                     )}
                 </NavigationContainer>
