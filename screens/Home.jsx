@@ -1,6 +1,7 @@
+import { MonContext } from "../components/Context";
 import ScreenWrapper from "../components/ScreenWrapper";
-import { Component, useState, useEffect } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { Component, useState, useEffect, useContext } from "react";
+import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useTheme, Text, Appbar, List, SegmentedButtons } from "react-native-paper";
 import { Slider } from "@miblanchard/react-native-slider";
 
@@ -70,6 +71,8 @@ export default function Home() {
         },
     });
 
+    const { user } = useContext(MonContext);
+
     const [currentDecibel, setCurrentDecibel] = useState(50);
     const [minDecibel, setMinDecibel] = useState(25);
     const [maxDecibel, setMaxDecibel] = useState(75);
@@ -103,22 +106,24 @@ export default function Home() {
         setSelection(value);
     }
 
+    const [presets, setPresets] = useState(user.presets);
+
     useEffect(() => {
-        if (selection === "marche") {
-            setMinDecibel(25);
-            setMaxDecibel(75);
-        }
-        if (selection === "train") {
-            setMinDecibel(15);
-            setMaxDecibel(80);
-        }
-        if (selection === "travail") {
-            setMinDecibel(10);
-            setMaxDecibel(70);
-        }
+        presets.forEach((element) => {
+            if (element.nom === selection) {
+                setMinDecibel(element.min);
+                setMaxDecibel(element.max);
+            }
+        });
     }, [selection]);
     useEffect(() => {
-        if ((minDecibel !== 25 && maxDecibel !== 75) || (minDecibel !== 15 && maxDecibel !== 80) || (minDecibel !== 10 && maxDecibel !== 70)) {
+        let selected = false;
+        presets.forEach((element) => {
+            if (minDecibel !== element.min && maxDecibel !== element.max) {
+                selected = true;
+            }
+        });
+        if (selected) {
             setSelection("");
         }
     }, [minDecibel, maxDecibel]);
@@ -133,7 +138,6 @@ export default function Home() {
                     <Text variant="displayMedium" style={{ color: theme.colors.primary }}>
                         ADPA
                     </Text>
-                    {/* <Image source={require("../public/waveform.gif")} style={{ width: 300, height: 300 }} /> */}
                     <Image source={require("../public/illustration.jpg")} style={{ width: 300, height: 250, borderRadius: 40 }} />
                     <View style={styles.currentDecibelContainer}>
                         <Text variant="displayLarge" style={styles.textCurrentDecibel}>
@@ -159,33 +163,25 @@ export default function Home() {
                         thumbStyle={styles.sliderThumb}
                     />
                 </View>
-                <List.Section title={`Mes pré-sets`} style={{ marginHorizontal: 5 }}>
-                    <SegmentedButtons
-                        value={selection}
-                        onValueChange={setSelectionFix}
-                        buttons={[
-                            {
-                                value: "marche",
-                                icon: "walk",
-                                label: "Marche",
-                                style: styles.button,
-                            },
-                            {
-                                value: "train",
-                                icon: "train",
-                                label: "Transports",
-                                style: styles.button,
-                            },
-                            {
-                                value: "travail",
-                                icon: "text-box-check",
-                                label: "Travail",
-                                style: styles.button,
-                            },
-                        ]}
-                        style={styles.group}
-                    />
-                </List.Section>
+                {user.presets.length > 0 ? (
+                    <List.Section title={`Mes pré-sets`} style={{ marginHorizontal: 5 }}>
+                        <ScrollView showsHorizontalScrollIndicator={false} horizontal style={{ marginHorizontal: 5 }}>
+                            <SegmentedButtons
+                                value={selection}
+                                onValueChange={setSelectionFix}
+                                buttons={[
+                                    ...user.presets.map((preset) => {
+                                        return {
+                                            value: preset.nom,
+                                            icon: preset.icone,
+                                            label: preset.nom,
+                                        };
+                                    }),
+                                ]}
+                            />
+                        </ScrollView>
+                    </List.Section>
+                ) : null}
             </ScreenWrapper>
         </View>
     );

@@ -60,6 +60,10 @@ export default function App() {
                 console.log(user);
                 console.log("Connexion");
             },
+            disconnect: () => {
+                setUser(null);
+                console.log("Déconnexion");
+            },
         }),
         [user]
     );
