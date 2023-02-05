@@ -83,14 +83,7 @@ export default function Login() {
         },
     });
 
-    const { user, connect, disconnect } = useContext(MonContext);
-
-    const connected = useEffect(() => {
-        if (user.isConnected) {
-            RootNavigation.navigate("Adpa");
-        }
-    }, [user.isConnected]);
-
+    const { connect, disconnect, setUser } = useContext(MonContext);
     const users = db.users;
     const navigation = useNavigation();
 
@@ -115,20 +108,20 @@ export default function Login() {
             emailCheck = emailCheck.toLowerCase();
             console.log("Email : '" + emailCheck + "' et mot de passe : '" + passwordCheck + "'");
             if (users.find((user) => user.email === emailCheck && user.password === passwordCheck)) {
-                console.log("Connexion réussie");
                 const username = users.find((user) => user.email === emailCheck && user.password === passwordCheck).username;
                 const tel = users.find((user) => user.email === emailCheck && user.password === passwordCheck).telephone;
                 const id = users.find((user) => user.email === emailCheck && user.password === passwordCheck).id;
+                const presets = users.find((user) => user.email === emailCheck && user.password === passwordCheck).presets;
                 connect({
-                    email: emailCheck,
+                    id: id,
                     username: username,
+                    email: emailCheck,
                     password: passwordCheck,
                     telephone: tel,
-                    id: id,
+                    presets: presets,
                     isConnected: true,
                 });
-                RootNavigation.navigate("Adpa");
-            } else if (users.find((user) => user.emailCheck === email)) {
+            } else if (users.find((user) => user.email === emailCheck)) {
                 alert("Mot de passe incorrect");
             } else {
                 alert("Email incorrect");
@@ -145,7 +138,39 @@ export default function Login() {
                             <Text style={{ color: "rgb(255, 185, 92)", fontWeight: "bold" }} variant="displayLarge">
                                 A D P A
                             </Text>
-                            <Button onPress={() => navigation.navigate("Adpa")} style={{ backgroundColor: theme.colors.errorContainer }}>
+                            <Button
+                                onPress={() =>
+                                    connect({
+                                        id: 1,
+                                        username: "test",
+                                        email: "test@example.com",
+                                        password: "test",
+                                        telephone: "0123456789",
+                                        presets: [
+                                            {
+                                                nom: "Marche",
+                                                min: 25,
+                                                max: 75,
+                                                icone: "walk",
+                                            },
+                                            {
+                                                nom: "Transport",
+                                                min: 15,
+                                                max: 80,
+                                                icone: "train",
+                                            },
+                                            {
+                                                nom: "Travail",
+                                                min: 10,
+                                                max: 70,
+                                                icone: "text-box-check",
+                                            },
+                                        ],
+                                        isConnected: true,
+                                    })
+                                }
+                                style={{ backgroundColor: theme.colors.errorContainer }}
+                            >
                                 <Text style={{ color: theme.colors.onErrorContainer }}>Express connect</Text> {/** TODO : Supprimer cette ligne, elle n'est là que pour le debug */}
                             </Button>
                         </View>

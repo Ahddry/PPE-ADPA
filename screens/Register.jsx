@@ -84,13 +84,7 @@ export default function Register() {
         },
     });
 
-    const { user, connect, disconnect } = useContext(MonContext);
-
-    const connected = useEffect(() => {
-        if (user.isConnected) {
-            RootNavigation.navigate("Adpa");
-        }
-    }, [user.isConnected]);
+    const { connect, disconnect } = useContext(MonContext);
 
     const users = db.users;
     const navigation = useNavigation();
@@ -146,8 +140,27 @@ export default function Register() {
                                     isConnected: true,
                                     telephone: "0612345678",
                                     id: 0, //TODO : Ajouter un id unique
+                                    presets: [
+                                        {
+                                            nom: "Marche",
+                                            min: 25,
+                                            max: 75,
+                                            icone: "walk",
+                                        },
+                                        {
+                                            nom: "Transport",
+                                            min: 15,
+                                            max: 80,
+                                            icone: "train",
+                                        },
+                                        {
+                                            nom: "Travail",
+                                            min: 10,
+                                            max: 70,
+                                            icone: "text-box-check",
+                                        },
+                                    ],
                                 });
-                                RootNavigation.navigate("Adpa");
                             } else {
                                 alert("L'utilisateur existe déjà !");
                             }

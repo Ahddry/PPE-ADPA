@@ -46,6 +46,7 @@ function Adpa() {
 
 export default function App() {
     const [isDarkTheme, setIsDarkTheme] = React.useState(true);
+    const [user, setUser] = React.useState(null);
 
     const context = React.useMemo(
         () => ({
@@ -53,30 +54,14 @@ export default function App() {
             toggleTheme: () => {
                 setIsDarkTheme((isDarkTheme) => !isDarkTheme);
             },
-            user: {
-                id: 0,
-                username: "",
-                email: "",
-                password: "",
-                telephone: "",
-                isConnected: false,
-            },
-            connect(user) {
-                this.user = user;
-                this.user.isConnected = true;
+            user: user,
+            connect: (user) => {
+                setUser(user);
                 console.log(user);
-            },
-            disconnect() {
-                this.user = {
-                    id: 0,
-                    username: "",
-                    email: "",
-                    password: "",
-                    isConnected: false,
-                };
+                console.log("Connexion");
             },
         }),
-        []
+        [user]
     );
 
     const theme = isDarkTheme ? darkTheme : lightTheme;
@@ -87,11 +72,15 @@ export default function App() {
         <PaperProvider theme={theme}>
             <MonContext.Provider value={context}>
                 <NavigationContainer ref={navigationRef}>
-                    <Stack.Navigator>
-                        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-                        <Stack.Screen name="Adpa" component={Adpa} options={{ headerShown: false }} />
-                    </Stack.Navigator>
+                    {user ? (
+                        <Adpa />
+                    ) : (
+                        <Stack.Navigator>
+                            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                            <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+                            {/* <Stack.Screen name="Adpa" component={Adpa} options={{ headerShown: false }} /> */}
+                        </Stack.Navigator>
+                    )}
                 </NavigationContainer>
                 <StatusBar style={isDarkTheme ? "light" : "dark"} />
             </MonContext.Provider>
