@@ -74,29 +74,29 @@ export default function Articles() {
                         </Text>
                         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={styles.chipsContainer} contentContainerStyle={styles.chipsContent}>
                             {article.tags.map((tag, index) => (
-                                <Chip style={styles.tagsButton} key={tag + article.id + index}>
+                                <Chip style={styles.tagsButton} key={index}>
                                     {tag}
                                 </Chip>
                             ))}
                         </ScrollView>
                         {article.illustration ? <Image source={{ uri: article.illustration }} style={{ width: "100%", height: 200, resizeMode: "cover", borderRadius: 8, marginTop: 16 }} /> : <></>}
                         {article.contenu.map((paragraphe, index) => (
-                            <>
+                            <View key={index}>
                                 {paragraphe.titre ? (
-                                    <Text variant="headlineMedium" style={styles.titre} key={article.id + paragraphe.titre + index}>
+                                    <Text variant="headlineMedium" style={styles.titre}>
                                         {paragraphe.titre}
                                     </Text>
                                 ) : (
                                     <></>
                                 )}
                                 {paragraphe.section ? (
-                                    <Text variant="body" style={styles.texte} key={article.id + paragraphe.titre + index + "body"}>
+                                    <Text variant="body" style={styles.texte}>
                                         {paragraphe.section}
                                     </Text>
                                 ) : (
                                     <></>
                                 )}
-                            </>
+                            </View>
                         ))}
                     </View>
                 </ScreenWrapper>

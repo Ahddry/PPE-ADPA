@@ -174,7 +174,7 @@ export default function Home() {
                     />
                 </View>
                 {user.presets.length > 0 ? (
-                    <List.Section title={`Mes pré-sets`} style={{ marginHorizontal: 5 }}>
+                    <List.Section title={`Mes pré-sets`} style={{ marginHorizontal: 5, alignItems: "center" }}>
                         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={{ marginHorizontal: 5 }}>
                             <SegmentedButtons
                                 value={selection}

@@ -32,29 +32,26 @@ export default function Profil() {
     // Contexte pour récupérer les données de l'utilisateur
     const { user, connect, disconnect } = useContext(MonContext);
 
-    // Mise à jour des champs quand l'utilisateur change
-    useFocusEffect(
-        React.useCallback(() => {
-            setPasswordHidden("");
-            if (user != null) {
-                setEmail(user.email);
-                setTelephone(user.telephone);
-                setPassword(user.password);
-                setUsername(user.username);
-                setUserPreSets(user.presets);
-                for (let i = 0; i < user.password.length; i++) {
-                    setPasswordHidden(passwordHidden + "●");
-                }
-            }
-        }, [user])
-    );
-
     const [email, setEmail] = React.useState("inconnu");
     const [telephone, setTelephone] = React.useState("inconnu");
     const [password, setPassword] = React.useState("inconnu");
     const [passwordHidden, setPasswordHidden] = React.useState("●●●●●●●●");
     const [isHidden, setIsHidden] = React.useState(true);
     const [username, setUsername] = React.useState("inconnu");
+
+    // Mise à jour des champs quand l'utilisateur change
+    useFocusEffect(
+        React.useCallback(() => {
+            if (user != null) {
+                setEmail(user.email);
+                setTelephone(user.telephone);
+                setPassword(user.password);
+                setUsername(user.username);
+                setUserPreSets(user.presets);
+                setPasswordHidden("●".repeat(user.password.length));
+            }
+        }, [user])
+    );
 
     const [userPreSets, setUserPreSets] = React.useState([]);
 
@@ -153,7 +150,7 @@ export default function Profil() {
                                     <RadioButton.Group onValueChange={(value) => setIcone(value)} value={icone}>
                                         {choixIcone.map((item, index) => {
                                             return (
-                                                <View key={index} style={{ flexDirection: "row", alignItems: "center" }}>
+                                                <View key={index + item} style={{ flexDirection: "row", alignItems: "center" }}>
                                                     <RadioButton value={item} status={icone === item ? "checked" : "unchecked"} />
                                                     <IconButton icon={item} size={20} />
                                                 </View>
@@ -198,7 +195,7 @@ export default function Profil() {
                                 <RadioButton.Group onValueChange={(value) => setIcone(value)} value={icone}>
                                     {choixIcone.map((item, index) => {
                                         return (
-                                            <View key={index} style={{ flexDirection: "row", alignItems: "center" }}>
+                                            <View key={item + index} style={{ flexDirection: "row", alignItems: "center" }}>
                                                 <RadioButton value={item} status={icone === item ? "checked" : "unchecked"} />
                                                 <IconButton icon={item} size={20} />
                                             </View>
@@ -248,8 +245,8 @@ export default function Profil() {
                     <List.Section style={styles.liste} title="Mes pré-sets">
                         {userPreSets.map((item, index) => {
                             return (
-                                <>
-                                    <List.Accordion left={(props) => <List.Icon {...props} icon={item.icone} style={{ marginLeft: 7 }} />} title={item.nom} key={index}>
+                                <View key={index}>
+                                    <List.Accordion left={(props) => <List.Icon {...props} icon={item.icone} style={{ marginLeft: 7 }} />} title={item.nom}>
                                         <List.Item
                                             left={(props) => <List.Icon {...props} icon="volume-minus" style={{ marginLeft: 15 }} />}
                                             title={"Limite basse : " + item.min}
@@ -280,7 +277,7 @@ export default function Profil() {
                                         />
                                     </List.Accordion>
                                     <Divider />
-                                </>
+                                </View>
                             );
                         })}
                         <List.Item
@@ -292,9 +289,9 @@ export default function Profil() {
                                 else alert("Vous ne pouvez pas avoir plus de 5 pré-sets. Veuillez en modifier un existant.");
                             }}
                         />
-                        <EditLimit index={indexDialog} type={minMax} />
+                        {/* <EditLimit index={indexDialog} type={minMax} />
                         <EditPreset index={indexDialog} />
-                        <AddPreset />
+                        <AddPreset /> */}
                     </List.Section>
                 ) : null}
                 <List.Section style={styles.liste} title="Se déconnecter">
