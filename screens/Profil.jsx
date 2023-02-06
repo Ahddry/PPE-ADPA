@@ -289,9 +289,9 @@ export default function Profil() {
                                 else alert("Vous ne pouvez pas avoir plus de 5 pré-sets. Veuillez en modifier un existant.");
                             }}
                         />
-                        {/* <EditLimit index={indexDialog} type={minMax} />
+                        <EditLimit index={indexDialog} type={minMax} />
                         <EditPreset index={indexDialog} />
-                        <AddPreset /> */}
+                        <AddPreset />
                     </List.Section>
                 ) : null}
                 <List.Section style={styles.liste} title="Se déconnecter">
