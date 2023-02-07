@@ -29,10 +29,11 @@ const SettingsRoute = () => <Settings />;
  * Page d'accueil de l'application (après connexion)
  * @returns {JSX.Element} La page d'accueil de l'application
  */
+
+// Routes Pour l'app
 function Adpa() {
   const [isDarkTheme, setIsDarkTheme] = React.useState(true);
   const theme = isDarkTheme ? darkTheme : lightTheme;
-  const database = SQLite.openDatabase("example.db");
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
@@ -94,9 +95,9 @@ function Adpa() {
 export default function App() {
   const [isDarkTheme, setIsDarkTheme] = React.useState(true);
   const [user, setUser] = React.useState(null);
-
   // Contexte de l'application
   // Il contient les informations de l'utilisateur connecté, les fonctions de connexion et de déconnexion ainsi que le thème de l'application
+
   const context = React.useMemo(
     () => ({
       isDarkTheme: isDarkTheme,
