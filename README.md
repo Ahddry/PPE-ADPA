@@ -93,6 +93,6 @@ Scanner le QR code avec l'application Expo sur un téléphone mobile ou lancer l
 - Maelys BOURGEAT [@Maelys92](https://github.com/Maelys92) (Responsable santé)
 - Nicolas DREYFUS--LAQUIEZE [@Nicodl05](https://github.com/Nicodl05) (Développeur back-end)
 - Lucie DUMONT [@luciedmt](https://github.com/luciedmt) (Recherche)
-- Hugo HAIDAR [@HugoHaidar](https://github.com/) (Partie hardware)
+- Hugo HAIDAR [@Deemo1906](https://github.com/Deemo1906) (Partie hardware)
 - Alix PARISOT [@alixprst](https://github.com/alixprst) (Cheffe de projet)
 - Marie SIGVARDT [@MarieSigvardt](https://github.com/) (Recherche)

@@ -110,6 +110,11 @@ export default function Register() {
         }
     }
 
+    function chechPhone(telephone) {
+        var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+        return re.test(telephone);
+    }
+
     // Fonction qui permet de s'inscrire
     // TODO : BDD + vérification des informations back-end
     function handleRegister() {
@@ -121,62 +126,66 @@ export default function Register() {
             console.log("Email : '" + emailCheck + "', username : '" + usernameCheck + "' et mot de passe : '" + passwordCheck + "'");
             if (validate(emailCheck)) {
                 if (usernameCheck !== "") {
-                    if (passwordCheck !== "") {
-                        if (passwordCheck.length >= 8) {
-                            var userExist = false;
-                            users.forEach((user) => {
-                                if (user.email === emailCheck) {
-                                    userExist = true;
+                    if (chechPhone(tel)) {
+                        if (passwordCheck !== "") {
+                            if (passwordCheck.length >= 8) {
+                                var userExist = false;
+                                users.forEach((user) => {
+                                    if (user.email === emailCheck) {
+                                        userExist = true;
+                                    }
+                                });
+                                if (!userExist) {
+                                    // TODO : Ajouter l'utilisateur dans la base de données
+                                    /*
+                                    db.users.push({
+                                        email: emailCheck,
+                                        username: usernameCheck,
+                                        password: passwordCheck,
+                                        isConnected: true,
+                                        id: db.users.length + 1,
+                                    });
+                                    */
+                                    console.log("L'utilisateur a été créé !");
+                                    connect({
+                                        email: emailCheck,
+                                        username: usernameCheck,
+                                        password: passwordCheck,
+                                        isConnected: true,
+                                        telephone: tel,
+                                        id: 0, //TODO : Ajouter un id unique
+                                        presets: [
+                                            {
+                                                nom: "Marche",
+                                                min: 25,
+                                                max: 75,
+                                                icone: "walk",
+                                            },
+                                            {
+                                                nom: "Transport",
+                                                min: 15,
+                                                max: 80,
+                                                icone: "train",
+                                            },
+                                            {
+                                                nom: "Travail",
+                                                min: 10,
+                                                max: 70,
+                                                icone: "text-box-check",
+                                            },
+                                        ],
+                                    });
+                                } else {
+                                    alert("L'utilisateur existe déjà !");
                                 }
-                            });
-                            if (!userExist) {
-                                // TODO : Ajouter l'utilisateur dans la base de données
-                                /*
-                                db.users.push({
-                                    email: emailCheck,
-                                    username: usernameCheck,
-                                    password: passwordCheck,
-                                    isConnected: true,
-                                    id: db.users.length + 1,
-                                });
-                                */
-                                console.log("L'utilisateur a été créé !");
-                                connect({
-                                    email: emailCheck,
-                                    username: usernameCheck,
-                                    password: passwordCheck,
-                                    isConnected: true,
-                                    telephone: "0612345678",
-                                    id: 0, //TODO : Ajouter un id unique
-                                    presets: [
-                                        {
-                                            nom: "Marche",
-                                            min: 25,
-                                            max: 75,
-                                            icone: "walk",
-                                        },
-                                        {
-                                            nom: "Transport",
-                                            min: 15,
-                                            max: 80,
-                                            icone: "train",
-                                        },
-                                        {
-                                            nom: "Travail",
-                                            min: 10,
-                                            max: 70,
-                                            icone: "text-box-check",
-                                        },
-                                    ],
-                                });
                             } else {
-                                alert("L'utilisateur existe déjà !");
+                                alert("Le mot de passe doit faire au moins 8 caractères !");
                             }
                         } else {
-                            alert("Le mot de passe doit faire au moins 8 caractères !");
+                            alert("Le mot de passe est vide !");
                         }
                     } else {
-                        alert("Le mot de passe est vide !");
+                        alert("Le numéro de téléphone est invalide !");
                     }
                 } else {
                     alert("Le nom d'utilisateur est vide !");
@@ -207,6 +216,7 @@ export default function Register() {
                         <View style={{ marginTop: 20, width: "100%", alignItems: "center" }}>
                             <TextInput label="Email" style={styles.input} value={email} onChangeText={(email) => setEmail(email)} />
                             <TextInput label="Nom d'utilisateur" style={styles.input} value={username} onChangeText={(username) => setUsername(username)} />
+                            <TextInput label="Téléphone" style={styles.input} value={tel} onChangeText={(tel) => setTel(tel)} left={<TextInput.Affix text="+33 " />} />
                             <TextInput
                                 label="Mot de passe"
                                 style={styles.input}
