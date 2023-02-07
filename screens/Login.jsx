@@ -102,7 +102,7 @@ export default function Login() {
   // Informations récupérées depuis le contexte
   const { connect, disconnect, setUser } = useContext(MonContext);
   // const users = db.users;
-  const [database, setDatabase] = useState(SQLite.openDatabase("adpa.db"));
+  var database = openDatabase({ name: "adpa.db" });
   const [isLoading, setIsLoading] = useState(true);
 
   const [visible, setVisible] = React.useState(false);
@@ -115,14 +115,15 @@ export default function Login() {
   // use effect pour chargement de la db
   useEffect(() => {
     database.transaction((tx) => {
+      //  tx.executeSql("DROP TABLE IF EXISTS users");
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS names (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, lastName TEXT, phone varchar(50), login varchar(50), pwd varchar(50))"
+        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, phone varchar(50), login varchar(50), pwd varchar(50))"
       );
     });
     database.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM names",
-        null,
+        "SELECT * FROM users",
+        [],
         (txObj, resultSet) => setUsers(resultSet.rows._array),
         (txObj, error) => console.log(error)
       );
@@ -152,21 +153,23 @@ export default function Login() {
       );
       var incorrectEmail = false;
       var incorrectPwd = false;
-      for (var i = 0; i < names.length; i++) {
+      console.log(users.length);
+      for (var i = 0; i < users.length; i++) {
+        console.log(i);
         if (users[i].login === emailCheck && users[i].pwd === passwordCheck) {
           console.log("Connecté");
           connect({
             id: users[i].id,
-            username: users[i].name,
+            username: users[i].username,
             email: users[i].login,
             password: users[i].pwd,
             telephone: users[i].phone,
             isConnected: true,
           });
-          if (names[i].login === emailCheck && names[i].pwd != passwordCheck) {
+          if (users[i].login === emailCheck && users[i].pwd != passwordCheck) {
             incorrectPwd = true;
           }
-          if (names[i].login != emailCheck && names[i].pwd === passwordCheck) {
+          if (users[i].login != emailCheck && users[i].pwd === passwordCheck) {
             incorrectEmail = true;
           }
         }
@@ -177,7 +180,7 @@ export default function Login() {
           alert("Mot de passe incorrect");
         }
         if (isConnected) {
-          RootNavigation.navigate("Home");
+          console.log("Connecté");
         }
       }
     }
