@@ -4,6 +4,8 @@ import { Component, useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useTheme, Text, Appbar, List, SegmentedButtons } from "react-native-paper";
 import { Slider } from "@miblanchard/react-native-slider";
+import SystemSetting from 'react-native-system-setting';
+
 
 /**
  * Page d'accueil
@@ -78,8 +80,10 @@ export default function Home() {
 
     const { user } = useContext(MonContext);
 
+
     //! Value du gros carré
     // TODO: @Hugo Afficher le resultat de l'output là
+    var obj = SystemSetting;
     const [currentDecibel, setCurrentDecibel] = useState(50);
 
     // TODO: @Hugo Récupérer ces valeurs pour l'input
@@ -89,22 +93,32 @@ export default function Home() {
     function onValueChange(value) {
         setMinDecibel(value[0]);
         setMaxDecibel(value[1]);
+
     }
 
     // * Sert pour le moment à faire varier le gros carré, à supprimer quand on aura l'input
     useEffect(() => {
         const interval = setInterval(() => {
-            var value = Math.floor(Math.random() * (maxDecibel - minDecibel + 1) + minDecibel);
-            if (value < minDecibel) {
-                value = minDecibel;
-            }
-            if (value > maxDecibel) {
-                value = maxDecibel;
-            }
-            setCurrentDecibel(value);
+            // var value = Math.floor(Math.random() * (maxDecibel - minDecibel + 1) + minDecibel);
+            // if (value < minDecibel) {
+            //     value = minDecibel;
+            // }
+            // if (value > maxDecibel) {
+            //     value = maxDecibel;
+            // }   
+            console.log(obj.getVolume("Call").then((value) => '${value}'));
         }, 2000);
         return () => clearInterval(interval);
     }, [minDecibel, maxDecibel]);
+
+    // useEffect(() => {
+    //     const volumeListener = SystemSetting.addVolumeListener(data => {
+    //         console.log(data.volume);
+    //         setCurrentDecibel(75);
+    //     });
+    
+    //     return () => SystemSetting.removeVolumeListener(volumeListener)  
+    // }, [])
 
     const [selection, setSelection] = useState("");
     function delay(time) {
