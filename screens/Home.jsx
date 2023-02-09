@@ -86,6 +86,8 @@ export default function Home() {
     const [minDecibel, setMinDecibel] = useState(25);
     const [maxDecibel, setMaxDecibel] = useState(75);
 
+    const [volume, setVolume] = useState(0.5);
+
     function onValueChange(value) {
         setMinDecibel(value[0]);
         setMaxDecibel(value[1]);
@@ -165,6 +167,25 @@ export default function Home() {
                         minimumValue={0}
                         maximumValue={100}
                         step={1}
+                        animateTransitions
+                        minimumTrackTintColor={theme.colors.primaryContainer}
+                        maximumTrackTintColor={theme.colors.primaryContainer}
+                        thumbTintColor={theme.colors.onPrimary}
+                        trackStyle={styles.sliderTrack}
+                        thumbStyle={styles.sliderThumb}
+                    />
+                </View>
+                <View style={styles.sliderContainer}>
+                    <Text variant="displaySmall" style={{ color: theme.colors.secondary, fontStyle: "italic", fontWeight: "bold", alignSelf: "center" }}>
+                        {" "}
+                        Volume : {Math.round(volume * 100)} %{" "}
+                    </Text>
+                    <Slider
+                        value={volume}
+                        onValueChange={setVolume}
+                        minimumValue={0}
+                        maximumValue={1}
+                        step={0.05}
                         animateTransitions
                         minimumTrackTintColor={theme.colors.primaryContainer}
                         maximumTrackTintColor={theme.colors.primaryContainer}
