@@ -102,7 +102,7 @@ export default function Login() {
   // Informations récupérées depuis le contexte
   const { connect, disconnect, setUser } = useContext(MonContext);
   // const users = db.users;
-  var database = openDatabase({ name: "adpa.db" });
+  var database = SQLite.openDatabase({ name: "adpa.db" });
   const [isLoading, setIsLoading] = useState(true);
 
   const [visible, setVisible] = React.useState(false);
@@ -156,7 +156,7 @@ export default function Login() {
       console.log(users.length);
       for (var i = 0; i < users.length; i++) {
         console.log(i);
-        if (users[i].login === emailCheck && users[i].pwd === passwordCheck) {
+        if (users[i].login == emailCheck && users[i].pwd == passwordCheck) {
           console.log("Connecté");
           connect({
             id: users[i].id,
@@ -166,6 +166,7 @@ export default function Login() {
             telephone: users[i].phone,
             isConnected: true,
           });
+          alert("Connecté");
           if (users[i].login === emailCheck && users[i].pwd != passwordCheck) {
             incorrectPwd = true;
           }

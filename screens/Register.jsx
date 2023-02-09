@@ -110,7 +110,7 @@ export default function Register() {
   const [eye, setEye] = React.useState("eye-off");
   const [users, setUsers] = useState([]);
 
-  var database = openDatabase({ name: "adpa.db" });
+  var database = SQLite.openDatabase({ name: "adpa.db" });
   const [isLoading, setIsLoading] = useState(true);
 
   var success = false;
@@ -144,6 +144,12 @@ export default function Register() {
   // TODO : BDD + vérification des informations back-end
 
   function registerDatabase() {
+    database.transaction((tx) => {
+      //  tx.executeSql("DROP TABLE IF EXISTS users");
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, phone varchar(50), login varchar(50), pwd varchar(50))"
+      );
+    });
     database.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO users (username phone, login, pwd) VALUES (?,?,?,?,?)",
@@ -185,26 +191,24 @@ export default function Register() {
           passwordCheck +
           "'"
       );
+      registerDatabase();
+      /*
       if (validate(emailCheck)) {
         if (usernameCheck !== "") {
           if (passwordCheck !== "") {
             if (passwordCheck.length >= 8) {
-              var userExist = false;
-              users.forEach((user) => {
-                if (user.email === emailCheck) {
-                  userExist = true;
-                }
-              });
-              if (!userExist) {
-                registerDatabase();
-                // TODO : Ajouter l'utilisateur dans la base de données
-                /// DONE
-                if (success) {
-                  console.log("L'utilisateur a été créé !");
-                }
-              } else {
-                alert("L'utilisateur existe déjà !");
+              // var userExist = false;
+
+              //    if (!userExist) {
+            
+              // TODO : Ajouter l'utilisateur dans la base de données
+              /// DONE
+              if (success) {
+                console.log("L'utilisateur a été créé !");
               }
+              // } else {
+              //  alert("L'utilisateur existe déjà !");
+              //}
             } else {
               alert("Le mot de passe doit faire au moins 8 caractères !");
             }
@@ -216,7 +220,7 @@ export default function Register() {
         }
       } else {
         alert("L'email est invalide !");
-      }
+      }*/
     }
   }
 

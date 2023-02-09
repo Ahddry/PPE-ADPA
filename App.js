@@ -61,13 +61,6 @@ function Adpa() {
       unfocusedIcon: "cog-outline",
     },
   ]);
-  useEffect(() => {
-    database.transaction((tx) => {
-      tx.executeSql(
-        "create table if not exists user (id integer primary key not null auto increment, name text, lastname text, email text, password text, phone text);"
-      );
-    });
-  });
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomeRoute,
