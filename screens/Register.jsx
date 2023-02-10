@@ -109,23 +109,25 @@ export default function Register() {
   const [tel, setTel] = React.useState("");
   const [eye, setEye] = React.useState("eye-off");
   const [users, setUsers] = useState([]);
-
-  var database = SQLite.openDatabase({ name: "adpa.db" });
+  const [lengthDB, setLengthDB] = useState([]);
+  const [database, setDatabase] = useState(SQLite.openDatabase("adpa.db"));
   const [isLoading, setIsLoading] = useState(true);
 
   var success = false;
   useEffect(() => {
-    /* database.transaction((tx) => {
+    database.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, phone varchar(50), login varchar(50), pwd varchar(50))"
+        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, phone varchar(50), login varchar(50), pwd varchar(50))",
+        []
       );
-    });*/
+    });
     database.transaction((tx) => {
       tx.executeSql(
         "Select * from users",
         [],
         (txObj, results) => setUsers(results.rows._array),
-        (txObj, error) => console.log(error)
+        (txObj, error) => console.log(error),
+        setLengthDB(users.length + 1)
       );
     });
     setIsLoading(false);
@@ -143,39 +145,7 @@ export default function Register() {
   // Fonction qui permet de s'inscrire
   // TODO : BDD + vérification des informations back-end
 
-  function registerDatabase() {
-    database.transaction((tx) => {
-      //  tx.executeSql("DROP TABLE IF EXISTS users");
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, phone varchar(50), login varchar(50), pwd varchar(50))"
-      );
-    });
-    database.transaction((tx) => {
-      tx.executeSql(
-        "INSERT INTO users (username phone, login, pwd) VALUES (?,?,?,?,?)",
-        [username, tel, email, password],
-        (tx, results) => {
-          console.log("Results", results.rowsAffected);
-          if (results.rowsAffected > 0) {
-            alert("Votre inscription est réussie, vous pouvez vous connecter", [
-              connect({
-                text: "Ok",
-                onPress: () => navigation.navigate("Login"),
-                email: emailCheck,
-                username: usernameCheck,
-                password: passwordCheck,
-                isConnected: true,
-                tel: phoneCheck,
-                id: database.users.length + 1,
-                success: true,
-              }),
-            ]);
-          } else alert("L'inscription a échouée");
-        }
-      );
-    });
-  }
-  function handleRegister() {
+  const handleRegister = () => {
     if (email !== "" && password !== "") {
       var emailCheck = email.trim();
       var usernameCheck = username.trim();
@@ -189,9 +159,55 @@ export default function Register() {
           usernameCheck +
           "' et mot de passe : '" +
           passwordCheck +
-          "'"
+          "'" +
+          " length: " +
+          lengthDB
       );
-      registerDatabase();
+      console.log("Registering...");
+      database.transaction((tx) => {
+        //  tx.executeSql("DROP TABLE IF EXISTS users");
+        /*tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, phone varchar(50), login varchar(50), pwd varchar(50))",
+          []
+        );*/
+
+        tx.executeSql(
+          "INSERT INTO users (id,username phone, login, pwd) VALUES (?,?,?,?,?,?)",
+          [lengthDB, username, tel, email, password],
+          (tx, results) => {
+            let existingUsers = [...users];
+            existingUsers.push({
+              id: database.users.length + 1,
+              username: username,
+              phone: phoneCheck,
+              login: emailcheck,
+              pwd: passwordCheck,
+            });
+            setUsers(existingUsers);
+
+            console.log("Results", results.rowsAffected);
+            if (results.rowsAffected > 0) {
+              alert(
+                "Votre inscription est réussie, vous pouvez vous connecter",
+                [
+                  connect({
+                    text: "Ok",
+                    onPress: () => navigation.navigate("Login"),
+                    email: emailCheck,
+                    username: usernameCheck,
+                    password: passwordCheck,
+                    isConnected: true,
+                    tel: phoneCheck,
+                    id: lengthDB,
+                    success: true,
+                  }),
+                ]
+              );
+            } else alert("L'inscription a échouée");
+          }
+        );
+        console.log("done");
+      });
       /*
       if (validate(emailCheck)) {
         if (usernameCheck !== "") {
@@ -222,7 +238,7 @@ export default function Register() {
         alert("L'email est invalide !");
       }*/
     }
-  }
+  };
 
   return (
     <View style={styles.screen}>

@@ -143,7 +143,7 @@ export default function Login() {
 
   // Fonction de connexion
   // TODO : BDD + vérification des informations back-end
-  function handleLogin() {
+  const handleLogin = () => {
     if (email !== "" && password !== "") {
       var emailCheck = email.trim();
       var passwordCheck = password.trim();
@@ -185,7 +185,7 @@ export default function Login() {
         }
       }
     }
-  }
+  };
 
   return (
     <View style={styles.screen}>
