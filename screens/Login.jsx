@@ -188,10 +188,10 @@ export default function Login() {
               <Button
                 onPress={() =>
                   connect({
-                    id: 1,
-                    username: "test",
-                    email: "test@example.com",
-                    password: "test",
+                    id: "user_express",
+                    username: "Express",
+                    email: "connexion@express.com",
+                    password: "password",
                     telephone: "0123456789",
                     presets: [
                       {
