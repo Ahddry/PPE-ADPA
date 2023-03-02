@@ -30,7 +30,7 @@ Après avoir réalisé une étude de marché, nous avons pu décerner différent
 
 ### Architecture
 
-Le projet prend la forme d'une application mobile en **React Native** avec **Expo**. L'application est développée en **JavaScript**. L'interface graphique est réalisée avec **React Native Paper**. Les données sont stockées dans une base de données locale **SQLite**.
+Le projet prend la forme d'une application mobile en **React Native** avec **Expo**. L'application est développée en **JavaScript**. L'interface graphique est réalisée avec **React Native Paper**. Les données sont stockées grâce à une API de stockage de données clé-valeur asynchrone nommée **Async Storage**. Cette API est asynchrone ce qui signifie que l'on peut stocker et récupérer nos données de cette manieres. Nous avons choisi d'utiliser cette solution en raison de la faible quantité de données nécessitant d'être stockée pour notre application.
 
 L'interface graphique prend la forme d'une page d'accueil avec un menu de navigation en bas de l'écran. La page d'accueil affiche le volume sortant actuel ainsi que le slider permettant de le régler. La page de réglages permet de modifier les paramètres de l'application. La page de profil permet de modifier les informations de l'utilisateur, ainsi que ses pré-sets de volume. La page d'informations affiche des cartes présentant des articles sur la santé auditive. Chaque article est accessible en cliquant sur la carte. Chaque articles possèdes des tags permettant de les trier. La page de recherche permet de rechercher des articles par mots-clés. On pout ouvrir un article pour en lire le contenu complet.
 
