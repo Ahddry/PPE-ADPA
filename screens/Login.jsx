@@ -153,8 +153,10 @@ export default function Login() {
           telephone: matchingUser.telephone,
           //TODO : Ajouter un id unique, enleve pour le moment
           presets: matchingUser.presets,
+          id: matchingUser.id,
           user: {
             username: matchingUser.username,
+            id: matchingUser.id,
             email: emailCheck,
             password: passwordCheck,
             telephone: matchingUser.telephone,
