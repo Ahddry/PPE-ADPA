@@ -123,7 +123,7 @@ export default function Register() {
             var usernameCheck = username.trim();
             var passwordCheck = password.trim();
             emailCheck = emailCheck.toLowerCase();
-            console.log("Email : '" + emailCheck + "', username : '" + usernameCheck + "' et mot de passe : '" + passwordCheck + "'");
+            // console.log("Email : '" + emailCheck + "', username : '" + usernameCheck + "' et mot de passe : '" + passwordCheck + "'");
             if (validate(emailCheck)) {
                 if (usernameCheck !== "") {
                     if (chechPhone(tel)) {
@@ -146,7 +146,7 @@ export default function Register() {
                                         id: db.users.length + 1,
                                     });
                                     */
-                                    console.log("L'utilisateur a été créé !");
+                                    // console.log("L'utilisateur a été créé !");
                                     connect({
                                         email: emailCheck,
                                         username: usernameCheck,

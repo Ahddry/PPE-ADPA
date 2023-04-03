@@ -72,12 +72,12 @@ export default function App() {
             user: user,
             connect: (user) => {
                 setUser(user);
-                console.log(user);
-                console.log("Connexion");
+                // console.log(user);
+                // console.log("Connexion");
             },
             disconnect: () => {
                 setUser(null);
-                console.log("Déconnexion");
+                // console.log("Déconnexion");
             },
         }),
         [user]

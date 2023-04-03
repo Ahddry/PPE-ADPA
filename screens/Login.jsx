@@ -113,7 +113,7 @@ export default function Login() {
             var emailCheck = email.trim();
             var passwordCheck = password.trim();
             emailCheck = emailCheck.toLowerCase();
-            console.log("Email : '" + emailCheck + "' et mot de passe : '" + passwordCheck + "'");
+            // console.log("Email : '" + emailCheck + "' et mot de passe : '" + passwordCheck + "'");
             if (users.find((user) => user.email === emailCheck && user.password === passwordCheck)) {
                 const username = users.find((user) => user.email === emailCheck && user.password === passwordCheck).username;
                 const tel = users.find((user) => user.email === emailCheck && user.password === passwordCheck).telephone;
@@ -145,7 +145,7 @@ export default function Login() {
                             <Text style={{ color: "rgb(255, 185, 92)", fontWeight: "bold" }} variant="displayLarge">
                                 A D P A
                             </Text>
-                            <Button
+                            {/* <Button
                                 onPress={() =>
                                     connect({
                                         id: 1,
@@ -178,8 +178,8 @@ export default function Login() {
                                 }
                                 style={{ backgroundColor: theme.colors.errorContainer }}
                             >
-                                <Text style={{ color: theme.colors.onErrorContainer }}>Express connect</Text> {/** TODO : Supprimer cette ligne, elle n'est là que pour le debug */}
-                            </Button>
+                                <Text style={{ color: theme.colors.onErrorContainer }}>Express connect</Text>
+                            </Button> */}
                         </View>
                     </ImageBackground>
                     <View style={styles.preContainer}>
@@ -227,7 +227,7 @@ export default function Login() {
                         </Button>
 
                         {/* Aucune idée de si on va s'en servir, je les ai mis mais y'a pas de back de fait pour l'instant, on peut les enlever si on veut */}
-                        <Text style={{ textAlign: "center", color: theme.colors.onSurfaceVariant }} variant="headlineMedium">
+                        {/* <Text style={{ textAlign: "center", color: theme.colors.onSurfaceVariant }} variant="headlineMedium">
                             Ou se connecter avec
                         </Text>
                         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", margin: 10 }}>
@@ -249,7 +249,7 @@ export default function Login() {
                             >
                                 Google
                             </Chip>
-                        </View>
+                        </View> */}
                     </View>
                 </ScrollView>
             </ScreenWrapper>
