@@ -47,12 +47,16 @@ export default function Articles() {
         },
         texte: {
             marginTop: 4,
+            marginLeft: 5,
+            marginRight: 5,
+            textAlign: "justify",
             color: theme.colors.onBackground,
         },
     });
 
     const navigation = useNavigation();
 
+    const [dateOptions] = React.useState({ weekday: "long", year: "numeric", month: "long", day: "numeric" });
     return (
         <View style={styles.screen}>
             <Appbar.Header elevated theme={theme}>
@@ -70,7 +74,7 @@ export default function Articles() {
                             {article.titre}
                         </Text>
                         <Text variant="labelLarge">
-                            Le {article.date} par {article.auteurs}
+                            Le {new Date(article.date).toLocaleDateString("fr-FR", dateOptions)} par {article.auteurs}
                         </Text>
                         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={styles.chipsContainer} contentContainerStyle={styles.chipsContent}>
                             {article.tags.map((tag, index) => (
