@@ -118,7 +118,7 @@ export default function Home() {
             else if (values[index] === NaN) setCurrentDecibel(0);
             else {
                 const currentMediaVolume = values[index];
-                const volumeInDb = 55 * Math.log10(currentMediaVolume);
+                const volumeInDb = 45 * Math.log10(currentMediaVolume);
                 const limitedOutput = Math.min(Math.max(volumeInDb, minDecibel), maxDecibel);
                 if (currentMediaVolume == 0) setCurrentDecibel(0);
                 setCurrentDecibel(limitedOutput.toFixed(0));
