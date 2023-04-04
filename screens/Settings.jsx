@@ -71,7 +71,7 @@ function Parametres() {
                         <Divider />
                     </List.Section>
                     <List.Section title="À propos">
-                        <List.Item title="Version" onPress={() => ""} left={(props) => <List.Icon {...props} icon="information" style={{ marginLeft: 15 }} />} right={() => <Text>0.5.2</Text>} />
+                        <List.Item title="Version" onPress={() => ""} left={(props) => <List.Icon {...props} icon="information" style={{ marginLeft: 15 }} />} right={() => <Text>0.7.1</Text>} />
                         <Divider />
                         <Divider />
                     </List.Section>
