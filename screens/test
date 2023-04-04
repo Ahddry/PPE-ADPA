@@ -1,0 +1,16 @@
+const interval = setInterval(() => {
+            const updateDecibel = async () => {
+                try {
+                    const currentMediaVolume = getCurrentVolume * volume;
+                    const volumeInDb = 20 * Math.log10(currentMediaVolume);
+                    const range = maxDecibel - minDecibel;
+                    const output = range * volumeInDb + minDecibel;
+                    const limitedOutput = Math.min(Math.max(output, minDecibel), maxDecibel);
+                    if (currentMediaVolume == 0) setCurrentDecibel(0);
+                    setCurrentDecibel(limitedOutput);
+                } catch (error) {
+                    console.log("Erreur de là : ", error);
+                }
+            };
+            updateDecibel();
+        }, 100);
